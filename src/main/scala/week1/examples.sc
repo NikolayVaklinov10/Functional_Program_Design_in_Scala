@@ -23,11 +23,13 @@ def factorial(x:BigInteger):BigInteger =
 //Actor example in Scala
 import akka.actor.Actor
 
-actor{
+class ChecksumActor extends Actor{
   var sum = 0
-  loop{
-    case Data(bytes) => sum += hash(bytes)
-    case GetSum(requester) => requester ! sum
+  def receive = {
+    case Data(byte) => += byte
+    case GetChecksum(requester) =>
+      val checksum = ~(sum & 0xFF) + 1
+      requester ! checksum
   }
 }
 
