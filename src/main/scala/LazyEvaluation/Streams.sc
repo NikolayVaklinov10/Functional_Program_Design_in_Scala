@@ -14,10 +14,27 @@ else nthPrime(from + 1, to, n)
 
 
 
+// Implementation of Streams
 
+trait Stream[+A] extends Seq[A]{
+  def isEmpty: Boolean
+  def head: A
+  def tail: Stream[A]
+}
 
-
-
+// Implementation of Streams-2
+object Stream{
+  def cons[T](hd: T, tl: => Stream[T]) = new Stream[T]{
+    def isEmpty = false
+    def head = hd
+    def tail = tl
+  }
+  val empty = new Stream[Nothing]{
+    def isEmpty = true
+    def head = throw new NoSuchElementException("empty.head")
+    def tail = throw new NoSuchElementException("empty.tail")
+  }
+}
 
 
 
