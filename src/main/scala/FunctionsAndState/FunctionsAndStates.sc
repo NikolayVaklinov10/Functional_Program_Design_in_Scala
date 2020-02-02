@@ -27,6 +27,24 @@ if(1 == 0) 3 else iterate(1 - 1, square, square(3))
 // may vary over the course of the lifetime of the account.
 
 
+// In practice, objects with state are usually represented by
+// objects that have some variable members.
+
+// Example:Here is a class modeling a bank account.
+class BankAccount{
+  private var balance = 0
+  def deposit(amount: Int): Unit = {
+    if (amount > 0) balance = balance + amount
+  }
+  def withdraw(amount: Int): Int =
+    if (0 < amount && amount <= balance) {
+    balance = balance - amount
+    balance
+  }else throw new Error("insufficient funds")
+}
+
+
+
 
 
 
