@@ -40,7 +40,20 @@ Http(url, Request(packet))
     europeConfirm.zip(usaConfirm)}
 
 
+// Better recovery with less matching
+def sendToSafe(packet: Array[Byte]):Future[Array[Byte]] =
+  sendTo(mailSrver.europe, packet) recoverWith{
+    case europeError =>
+      sendTo(mailServer.usa, packet) recover{
+        case usaError => usaError.getMessage.toByteArray
+      }
+  }
 
+def fallbackTo(that: => Future[T]):Future[T] ={
+  this recoverWith{
+    case _ => that recoverWith { case _ => this }
+  }
+}
 
 
 
